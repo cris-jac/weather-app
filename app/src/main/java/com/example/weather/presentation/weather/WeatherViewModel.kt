@@ -8,20 +8,23 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.weather.repository.Repository
 import com.example.weather.repository.models.CityModel
+import com.example.weather.router.IRouter
 import com.example.weather.router.Router
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
 class WeatherViewModel(
     val repository: Repository,
-    val router: Router
+    val router: IRouter,
+    val lat: Float,
+    val lon: Float
 ): ViewModel() {
     var uiState by mutableStateOf<WeatherState>(WeatherState.Empty)
 
     fun execute(intent: WeatherIntent){
         when(intent) {
             WeatherIntent.DeleteAll -> deleteAll()
-            WeatherIntent.DisplayCity -> displayCity()
+            WeatherIntent.GetCityCurrentWeather -> getCityCurrentWeather()
             WeatherIntent.DisplayError -> displayError()
         }
     }
@@ -34,19 +37,19 @@ class WeatherViewModel(
         uiState = WeatherState.Empty
     }
 
-    private fun displayCity(){
-        WeatherState.Loading
+    private fun getCityCurrentWeather(){
+        uiState = WeatherState.Loading
         viewModelScope.launch {
             try {
-                val currentWeather = repository.getWeather("-34", "-45")
-                WeatherState.Success(
-                    city = currentWeather.name,
-                    temperature = currentWeather.main.temp,
-                    description = currentWeather.weather.first().toString(),
-                    st = currentWeather.main.feelsLike
+                val currentWeather = repository.getWeather(lat, lon)
+                uiState = WeatherState.Success(
+                    city = currentWeather.name ?: "",
+                    temperature = currentWeather.main?.temp ?: 0.0,
+                    description = currentWeather.weather?.first()?.description ?: "",
+                    st = currentWeather.main?.feelsLike ?: 0.0
                 )
             } catch (exception: Exception) {
-                WeatherState.Error("error msg")
+                uiState = WeatherState.Error("Error: ${exception.message}")
             }
         }
     }
@@ -56,11 +59,13 @@ class WeatherViewModel(
 @Suppress("UNCHECKED_CAST")
 class WeatherViewModelFactory(
     private val repository: Repository,
-    private val router: Router
+    private val router: IRouter,
+    private val lat: Float,
+    private val lon: Float
 ): ViewModelProvider.Factory {
     override fun <T: ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(WeatherViewModel::class.java)) {
-            return WeatherViewModel(repository, router) as T
+            return WeatherViewModel(repository, router, lat, lon) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class")

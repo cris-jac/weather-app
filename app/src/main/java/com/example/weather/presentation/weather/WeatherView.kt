@@ -9,31 +9,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import com.example.weather.ui.theme.WeatherTheme
 
 @Composable
 fun WeatherView(
     modifier: Modifier = Modifier,
-//    uiState: UiState
-    state: WeatherState
+    state: WeatherState,
+    onAction: (WeatherIntent) -> Unit
 ) {
-
-//    val lat = remember { uiState.latitud }
-//    val lon = remember { uiState.longitud }
-//
-//    val weatherState = remember { mutableStateOf<String?>(null) }
-//    val coroutineScope = rememberCoroutineScope()
-//    
-//    LaunchedEffect(lat, lon) {
-//        coroutineScope.launch{
-//            val weather: String? = getWeather(lat, lon)
-//            weatherState.value = weather
-//        }
-//    }
-//
-//    Column(modifier = modifier.fillMaxSize()) {
-//        Text(text = weatherState.value ?: "Loading...")
-//    }
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        onAction(WeatherIntent.GetCityCurrentWeather)
+    }
     
     Column(
         modifier = modifier
@@ -70,9 +58,9 @@ fun ErrorView(message: String){
 fun CurrentView(city: String, temperature: Double, description: String, st: Double){
     Column {
         Text(text = city)
-        Text(text = "${temperature} °C")
+        Text(text = "${String.format("%.1f",temperature.minus(273.15))} °C")
         Text(text = description)
-        Text(text = "Sens. term.: ${st}")
+        Text(text = "Sens. term.: $st")
     }
 }
 
@@ -81,7 +69,7 @@ fun CurrentView(city: String, temperature: Double, description: String, st: Doub
 @Composable
 fun EmptyViewPreview(){
     WeatherTheme {
-        WeatherView(state = WeatherState.Empty)
+        WeatherView(state = WeatherState.Empty, onAction = {})
     }
 }
 

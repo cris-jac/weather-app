@@ -23,34 +23,26 @@ fun MainPage() {
 
     NavHost(
         navController = navHostController,
-        startDestination = Route.Cities.id
+        startDestination = "cities"
     ) {
-        composable(route = Route.Cities.id){
+        composable(route = "cities"){
             CitiesPage(navHostController)
         }
 
         composable(
-            route = Weather(0.0f,0.0f).id,
+            route = "weather?lat={lat}&lon={lon}&name={name}",
             arguments = listOf(
-                navArgument("lat") { NavType.FloatType },
-                navArgument("lon") { NavType.FloatType }
+                navArgument("lat") { NavType.StringType },
+                navArgument("lon") { NavType.StringType },
+                navArgument("name") { NavType.StringType }
             )
 
         ) {
-            val lat = it.arguments?.getFloat("lat") ?: 0.0f
-            val lon = it.arguments?.getFloat("lon") ?: 0.0f
-            WeatherPage(navHostController, lat = lat, lon = lon)
+            val lat = it.arguments?.getString("lat")?.toFloatOrNull() ?: 32.0f
+            val lon = it.arguments?.getString("lon")?.toFloatOrNull() ?: 32.0f
+            val name = it.arguments?.getString("name") ?: "pepe"
+            WeatherPage(navHostController, lat = lat, lon = lon, name = name)
         }
     }
 
 }
-
-//data class UiState(var latitud: String = "", var longitud: String = "")
-
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    NavigationTheme {
-//        Greeting("Android")
-//    }
-//}

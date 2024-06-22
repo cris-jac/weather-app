@@ -5,7 +5,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 //import com.example.weather.UiState
 import com.example.weather.repository.RepositoryApi
-import com.example.weather.router.Enrutador
 import com.example.weather.router.Router
 
 @Composable
@@ -15,7 +14,7 @@ fun CitiesPage(
     val viewModel: CitiesViewModel = viewModel(
         factory = CitiesViewModelFactory(
             repository = RepositoryApi(),
-            router = Enrutador(navHostController)
+            router = Router(navHostController)
         )
     )
 

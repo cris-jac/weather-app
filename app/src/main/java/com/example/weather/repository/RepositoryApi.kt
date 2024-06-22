@@ -14,7 +14,7 @@ import kotlinx.serialization.json.Json
 class RepositoryApi: Repository {
     // open weather map -> current
     private val owmKey = "175f9f25c32ddb543824968a81c7b353"
-    private val owmBaseUrl = "http://api.openweathermap.org"
+    private val owmBaseUrl = "api.openweathermap.org"
 
     // open meteo -> forecast
     private val omBaseUrl = "api.open-meteo.com"
@@ -29,9 +29,7 @@ class RepositoryApi: Repository {
 
     override suspend fun searchCity(city: String): List<CityModel> {
         val limit = 5
-        val response = client.get("http://${owmBaseUrl}/geo/1.0/direct?q=${city}&limit=${limit}&appid=${owmKey}") {
-
-        }
+        val response = client.get("http://${owmBaseUrl}/geo/1.0/direct?q=${city}&limit=${limit}&appid=${owmKey}")
 
         if (response.status == HttpStatusCode.OK) {
             val cities = response.body<List<CityModel>>()
@@ -41,10 +39,10 @@ class RepositoryApi: Repository {
         }
     }
 
-    override suspend fun getWeather(lat: String, lon: String): CurrentWeatherModel {
-        val response = client.get("https://${owmBaseUrl}/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${owmKey}") {
-
-        }
+    override suspend fun getWeather(lat: Float, lon: Float): CurrentWeatherModel {
+        val latitude = lat.toString()
+        val longitud = lon.toString()
+        val response = client.get("https://${owmBaseUrl}/data/2.5/weather?lat=${latitude}&lon=${longitud}&appid=${owmKey}")
 
         if (response.status == HttpStatusCode.OK) {
             val currentWeather = response.body<CurrentWeatherModel>()
@@ -54,7 +52,7 @@ class RepositoryApi: Repository {
         }
     }
 
-    override suspend fun getForecast(lat: String, lon: String): ForecastWeatherModel {
+    override suspend fun getForecast(lat: Float, lon: Float): ForecastWeatherModel {
         val response = client.get("https://${omBaseUrl}/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto") {
 
         }

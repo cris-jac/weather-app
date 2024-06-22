@@ -7,20 +7,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.weather.repository.Repository
+import com.example.weather.repository.models.CityModel
+import com.example.weather.router.IRouter
 import com.example.weather.router.Route
 import com.example.weather.router.Router
 import kotlinx.coroutines.launch
 
 class CitiesViewModel(
     val repository: Repository,
-    val router: Router
+    val router: IRouter
 ): ViewModel() {
     var uiState by mutableStateOf<CitiesState>(CitiesState.Empty)
 
     fun execute(intent: CitiesIntent) {
         when(intent) {
             is CitiesIntent.Search -> search(name = intent.name)
-            is CitiesIntent.Select -> select()
+            is CitiesIntent.Select -> select(city = intent.city)
         }
     }
 
@@ -33,16 +35,20 @@ class CitiesViewModel(
                 uiState = CitiesState.Result(citiesList)
 
             } catch (exception: Exception) {
-                uiState = CitiesState.Error("Error")
+                println(exception)
+                uiState = CitiesState.Error("Error: ${exception.toString()}")
             }
         }
     }
 
-    private fun select() {
-        uiState = CitiesState.Empty
-        router.navigate(Route.Weather(0.0f, 0.0f))
-    }
+    private fun select(city: CityModel) {
+        val lat = city.lat.toString()
+        val lon = city.lon.toString()
 
+        val route = "weather?lat=${lat}&lon=${lon}&name=${city.name}"
+        uiState = CitiesState.Empty
+        router.navigate(route)
+    }
 }
 
 @Suppress("UNCHECKED_CAST")

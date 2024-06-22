@@ -4,20 +4,20 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CurrentWeatherModel(
-    val coord: Coord,
-    val weather: List<Weather>,
-    val base: String,
-    val main: Main,
-    val visibility: Long,
-    val wind: Wind,
-    val rain: Rain,
-    val clouds: Clouds,
-    val dt: Long,
-    val sys: Sys,
-    val timezone: Long,
-    val id: Long,
-    val name: String,
-    val cod: Long,
+    val coord: Coord? = null,
+    val weather: List<Weather>? = null,
+    val base: String? = null,
+    val main: Main? = null,
+    val visibility: Long? = null,
+    val wind: Wind? = null,
+    val rain: Rain? = null,
+    val clouds: Clouds? = null,
+    val dt: Long? = null,
+    val sys: Sys? = null,
+    val timezone: Long? = null,
+    val id: Long? = null,
+    val name: String? = null,
+    val cod: Long? = null
 )
 
 @Serializable
@@ -28,46 +28,46 @@ data class Coord(
 
 @Serializable
 data class Weather(
-    val id: Long,
-    val main: String,
-    val description: String,
-    val icon: String,
+    val id: Long? = null,
+    val main: String? = "",
+    val description: String? = "",
+    val icon: String? = "",
 )
 
 @Serializable
 data class Main(
-    val temp: Double,
-    val feelsLike: Double,
-    val tempMin: Double,
-    val tempMax: Double,
-    val pressure: Long,
-    val humidity: Long,
-    val seaLevel: Long,
-    val grndLevel: Long,
+    val temp: Double? = null,
+    val feelsLike: Double? = null,
+    val tempMin: Double? = null,
+    val tempMax: Double? = null,
+    val pressure: Long? = null,
+    val humidity: Long? = null,
+    val seaLevel: Long? = null,
+    val grndLevel: Long? = null,
 )
 
 @Serializable
 data class Wind(
-    val speed: Double,
-    val deg: Long,
-    val gust: Double,
+    val speed: Double? = null,
+    val deg: Long? = null,
+    val gust: Double? = null,
 )
 
 @Serializable
 data class Rain(
-    val n1h: Double,
+    val n1h: Double? = null,
 )
 
 @Serializable
 data class Clouds(
-    val all: Long,
+    val all: Long? = null,
 )
 
 @Serializable
 data class Sys(
-    val type: Long,
-    val id: Long,
-    val country: String,
-    val sunrise: Long,
-    val sunset: Long,
+    val type: Long? = null,
+    val id: Long? = null,
+    val country: String? = "",
+    val sunrise: Long? = null,
+    val sunset: Long? = null,
 )
