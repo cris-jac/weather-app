@@ -1,4 +1,4 @@
-package com.example.weather.presentation.weather
+package com.example.weather.presentation.weather.current
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,9 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.weather.repository.Repository
-import com.example.weather.repository.models.CityModel
 import com.example.weather.router.IRouter
-import com.example.weather.router.Router
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 

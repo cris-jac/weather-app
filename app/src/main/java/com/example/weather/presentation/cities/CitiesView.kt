@@ -15,12 +15,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.weather.presentation.weather.WeatherState
-import com.example.weather.presentation.weather.WeatherView
 import com.example.weather.repository.models.CityModel
-import com.example.weather.ui.theme.WeatherTheme
 
 @Composable
 fun CitiesView(
@@ -55,8 +51,8 @@ fun CitiesView(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListOfCities(
-    cities: List<CityModel>
-    , onSelect: (CityModel) -> Unit
+    cities: List<CityModel>,
+    onSelect: (CityModel) -> Unit
 ) {
     LazyColumn {
         items(items = cities) {city ->

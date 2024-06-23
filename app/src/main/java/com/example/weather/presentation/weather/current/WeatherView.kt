@@ -1,4 +1,4 @@
-package com.example.weather.presentation.weather
+package com.example.weather.presentation.weather.current
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

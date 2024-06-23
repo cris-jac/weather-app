@@ -41,8 +41,8 @@ class RepositoryApi: Repository {
 
     override suspend fun getWeather(lat: Float, lon: Float): CurrentWeatherModel {
         val latitude = lat.toString()
-        val longitud = lon.toString()
-        val response = client.get("https://${owmBaseUrl}/data/2.5/weather?lat=${latitude}&lon=${longitud}&appid=${owmKey}")
+        val longitude = lon.toString()
+        val response = client.get("https://${owmBaseUrl}/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${owmKey}")
 
         if (response.status == HttpStatusCode.OK) {
             val currentWeather = response.body<CurrentWeatherModel>()
@@ -53,13 +53,13 @@ class RepositoryApi: Repository {
     }
 
     override suspend fun getForecast(lat: Float, lon: Float): ForecastWeatherModel {
-        val response = client.get("https://${omBaseUrl}/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto") {
-
-        }
+        val latitude = "%.2f".format(lat)
+        val longitude = "%.2f".format(lon)
+        val response = client.get("https://${omBaseUrl}/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto")
 
         if (response.status == HttpStatusCode.OK) {
-            val cities = response.body<ForecastWeatherModel>()
-            return cities
+            val forecastWeather = response.body<ForecastWeatherModel>()
+            return forecastWeather
         } else {
             throw Exception()
         }

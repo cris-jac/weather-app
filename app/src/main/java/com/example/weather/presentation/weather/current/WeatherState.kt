@@ -1,4 +1,4 @@
-package com.example.weather.presentation.weather
+package com.example.weather.presentation.weather.current
 
 sealed class WeatherState {
     data class Success(

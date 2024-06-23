@@ -1,4 +1,4 @@
-package com.example.weather.presentation.weather
+package com.example.weather.presentation.weather.current
 
 sealed class WeatherIntent {
     object DeleteAll: WeatherIntent()
