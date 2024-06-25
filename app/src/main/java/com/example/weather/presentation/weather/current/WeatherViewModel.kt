@@ -41,10 +41,13 @@ class WeatherViewModel(
             try {
                 val currentWeather = repository.getWeather(lat, lon)
                 uiState = WeatherState.Success(
+                    unixDate = currentWeather.dt ?: 0,
                     city = currentWeather.name ?: "",
+                    country = currentWeather.sys?.country ?: "",
                     temperature = currentWeather.main?.temp ?: 0.0,
-                    description = currentWeather.weather?.first()?.description ?: "",
-                    st = currentWeather.main?.feelsLike ?: 0.0
+                    st = currentWeather.main?.feelsLike ?: 0.0,
+                    icon = currentWeather.weather?.first()?.icon ?: "",
+                    description = currentWeather.weather?.first()?.description ?: ""
                 )
             } catch (exception: Exception) {
                 uiState = WeatherState.Error("Error: ${exception.message}")
