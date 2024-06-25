@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -27,7 +28,6 @@ fun WeatherForecastView(
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         onAction(WeatherForecastIntent.GetForecast)
     }
-//    onAction(WeatherForecastIntent.GetForecast)
 
     Column(
         modifier = modifier
@@ -35,8 +35,6 @@ fun WeatherForecastView(
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Forecast - View")
-
         when(state) {
             WeatherForecastState.Empty -> {
                 Log.d("WeatherForecastView", "State: Empty")
@@ -79,16 +77,16 @@ fun WeatherForecastResultView(forecast: ForecastWeatherModel) {
     val daily = forecast.daily ?: return Text(text = "ResultView not available")
 
     val times = daily.time ?: emptyList()
-    val weatherCodes: List<Long> = daily.weatherCode?.toList() ?: emptyList()
-    val maxTemps: List<Double> = daily.temperature2mMax ?: emptyList()
-    val minTemps: List<Double> = daily.temperature2mMin ?: emptyList()
-    val maxPrcpProbs: List<Long> = daily.precipitationProbabilityMax ?: emptyList()
+    val weatherCodes: List<Int> = daily.weatherCode ?: emptyList()
+    val maxTemps: List<Float> = daily.temperature2mMax ?: emptyList()
+    val minTemps: List<Float> = daily.temperature2mMin ?: emptyList()
+    val maxPrcpProbs: List<Int> = daily.precipitationProbabilityMax ?: emptyList()
     
-    Text(text = forecast.toString())
+//    Text(text = forecast.toString())
     
-    Text(text = "List of forecast - Result View")
+//    Text(text = "List of forecast - Result View")
     
-    LazyColumn {
+    LazyRow {
         itemsIndexed(times) { index, time ->
             WeatherForecastCard(
                 time = time,
@@ -104,10 +102,10 @@ fun WeatherForecastResultView(forecast: ForecastWeatherModel) {
 @Composable
 fun WeatherForecastCard(
     time: String,
-    weatherCode: Long?,
-    tempMax: Double?,
-    tempMin: Double?,
-    precipitationProbability: Long?
+    weatherCode: Int?,
+    tempMax: Float?,
+    tempMin: Float?,
+    precipitationProbability: Int?
 ) {
     Card(modifier = Modifier.padding(8.dp)) {
         Text(text = "Fecha: $time")

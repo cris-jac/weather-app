@@ -3,6 +3,7 @@ package com.example.weather.presentation.weather.current
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -11,6 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
+import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
 import com.example.weather.ui.theme.WeatherTheme
 
 @Composable
@@ -61,6 +64,7 @@ fun CurrentView(city: String, temperature: Double, description: String, st: Doub
         Text(text = "${String.format("%.1f",temperature.minus(273.15))} °C")
         Text(text = description)
         Text(text = "Sens. term.: $st")
+        AsyncImage(model = "https://openweathermap.org/img/wn/09d@4x.png", contentDescription = "cloudy")
     }
 }
 

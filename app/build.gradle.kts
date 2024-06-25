@@ -77,4 +77,7 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:2.3.11")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.11")
     implementation("androidx.navigation:navigation-compose:2.7.7")
+
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.6.0")
 }

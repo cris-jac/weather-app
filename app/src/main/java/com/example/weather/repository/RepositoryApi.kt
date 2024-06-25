@@ -7,6 +7,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
@@ -58,7 +59,11 @@ class RepositoryApi: Repository {
         val response = client.get("https://${omBaseUrl}/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto")
 
         if (response.status == HttpStatusCode.OK) {
-            val forecastWeather = response.body<ForecastWeatherModel>()
+//            val forecastWeather = response.body<ForecastWeatherModel>()
+            val forecastWeatherResponse = response.bodyAsText()
+            println(forecastWeatherResponse)
+
+            val forecastWeather = Json.decodeFromString<ForecastWeatherModel>(forecastWeatherResponse)
             return forecastWeather
         } else {
             throw Exception()

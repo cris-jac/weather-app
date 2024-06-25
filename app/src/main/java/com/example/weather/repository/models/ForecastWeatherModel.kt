@@ -1,34 +1,36 @@
 package com.example.weather.repository.models
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class ForecastWeatherModel(
-    val latitude: Double,
-    val longitude: Double,
-    val generationtimeMs: Double? = null,
-    val utcOffsetSeconds: Long? = null,
+    val latitude: Double? = null,
+    val longitude: Double? = null,
+    @SerialName("generationtime_ms") val generationtimeMs: Double? = null,
+    @SerialName("utc_offset_seconds") val utcOffsetSeconds: Long? = null,
     val timezone: String? = "",
-    val timezoneAbbreviation: String? = "",
+    @SerialName("timezone_abbreviation") val timezoneAbbreviation: String? = "",
     val elevation: Double? = null,
-    val dailyUnits: DailyUnits? = null,
+    @SerialName("daily_units") val dailyUnits: DailyUnits? = null,
     val daily: Daily? = null,
 )
 
 @Serializable
 data class DailyUnits(
     val time: String? = "",
-    val weatherCode: String? = "",
-    val temperature2mMax: String? = "",
-    val temperature2mMin: String? = "",
-    val precipitationProbabilityMax: String? = "",
+    @SerialName("weather_code") val weatherCode: String? = "",
+    @SerialName("temperature_2m_max") val temperature2mMax: String? = "",
+    @SerialName("temperature_2m_min") val temperature2mMin: String? = "",
+    @SerialName("precipitation_probability_max") val precipitationProbabilityMax: String? = "",
 )
 
 @Serializable
 data class Daily(
     val time: List<String>? = null,
-    val weatherCode: List<Long>? = null,
-    val temperature2mMax: List<Double>? = null,
-    val temperature2mMin: List<Double>? = null,
-    val precipitationProbabilityMax: List<Long>? = null,
+    @SerialName("weather_code") val weatherCode: List<Int>? = null,
+    @SerialName("temperature_2m_max") val temperature2mMax: List<Float>? = null,
+    @SerialName("temperature_2m_min") val temperature2mMin: List<Float>? = null,
+    @SerialName("precipitation_probability_max") val precipitationProbabilityMax: List<Int>? = null,
 )
+
